@@ -1,0 +1,6 @@
+@GestionaleCN_HostAddress = http://localhost:5172
+
+GET {{GestionaleCN_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
