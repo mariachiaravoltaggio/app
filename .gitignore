@@ -3,36 +3,18 @@
 *.user
 *.suo
 *.vsidx
-*.vspx
 
 # .NET build
 bin/
 obj/
-[Bb]uild/
-[Ll]ogs/
-*.cache
-*.ldf
-*.mdf
 
-# Node / Angular
+# Angular / Node
 node_modules/
 dist/
 .angular/
 .tmp/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Ambiente / segreti (se usi file env)
-.env
-.env.*.local
 
 # Editor / OS
 .vscode/
 .DS_Store
 Thumbs.db
-
-# Coverage / reports
-coverage/
-*.lcov
