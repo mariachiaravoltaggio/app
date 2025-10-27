@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnDestroy, output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -12,46 +12,51 @@ import { TagModule } from 'primeng/tag';
 import { Customer, CustomerService, Representative } from '@/features/service/customer.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { Router } from '@angular/router';
-
+import { ProfileCreate } from './profile.create';
 @Component({
     selector: 'app-profile-list',
     imports: [TableModule, SelectModule, MultiSelectModule, InputIconModule, TagModule, InputTextModule, CommonModule, FormsModule, ButtonModule, RippleModule, IconFieldModule],
     providers: [CustomerService],
     template: ` <div class="card">
-        <div class="font-semibold text-xl mb-4">Filtering</div>
+        <div class="font-semibold text-xl mb-4">{{ title() }}</div>
         <p-table
             #dt
             [value]="customers1"
             dataKey="id"
             [paginator]="true"
             paginatorDropdownAppendTo="body"
-            [rows]="10"
+            [rows]="5"
             [showCurrentPageReport]="true"
             responsiveLayout="scroll"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [rowsPerPageOptions]="[10, 25, 50]"
+            [rowsPerPageOptions]="[5, 10, 25, 50]"
             [globalFilterFields]="['name', 'date', 'status']"
         >
             <ng-template #caption>
                 <div class="flex flex-wrap gap-2 items-center justify-between">
                     <p-icon-field class="w-full sm:w-80 order-1 sm:order-0">
                         <p-inputicon class="pi pi-search" />
-                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Global Search" class="w-full" />
+                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Cerca" class="w-full" />
                     </p-icon-field>
-                    <button (click)="navigateToCreateUser()" pButton outlined class="w-full sm:w-auto flex-order-0 sm:flex-order-1" icon="pi pi-user-plus" label="Add New"></button>
+                    @if (!isCreateConvivenza()) {
+                        <button (click)="navigateToCreateUser()" pButton outlined class="w-full sm:w-auto flex-order-0 sm:flex-order-1" icon="pi pi-user-plus" label="Aggiungi nuovo"></button>
+                    } @else {
+                        <button pButton type="button" icon="pi pi-user-plus" label="Aggiungi ospite" (click)="onAddGuest($event)" class="mt-2"></button>
+                    }
                 </div>
             </ng-template>
             <ng-template #header>
                 <tr>
-                    <th pSortableColumn="name" class="white-space-nowrap" style="width:40%">Name <p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="date" class="white-space-nowrap" style="width:40%">Join Date <p-sortIcon field="date"></p-sortIcon></th>
+                    <th pSortableColumn="name" class="white-space-nowrap" style="min-width: 20rem">Nominativo <p-sortIcon field="name"></p-sortIcon></th>
                     @if (!isCreateConvivenza()) {
-                        <th style="min-width: 12rem" pSortableColumn="status" class="white-space-nowrap">Status <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="date" class="white-space-nowrap" style="min-width: 10rem">Data di Nascita <p-sortIcon field="date"></p-sortIcon></th>
                     }
+                    <th style="min-width: 8rem" pSortableColumn="status" class="white-space-nowrap">Ruolo <p-sortIcon field="status"></p-sortIcon></th>
+
                     @if (isCreateConvivenza()) {
                         <th style="min-width: 8rem" pSortableColumn="verified" class="white-space-nowrap">Presenza <p-sortIcon field="verified"></p-sortIcon></th>
                     }
-                    <th style="min-width: 8rem" class="white-space-nowrap">Azioni</th>
+                    <th style="min-width: 8rem" class="white-space-nowrap flex justify-center">Azioni</th>
                 </tr>
             </ng-template>
             <ng-template #body let-customer>
@@ -59,14 +64,15 @@ import { Router } from '@angular/router';
                     <td>
                         {{ customer.name }}
                     </td>
-                    <td>
-                        {{ customer.date | date: 'MM/dd/yyyy' }}
-                    </td>
                     @if (!isCreateConvivenza()) {
                         <td>
-                            <p-tag [value]="customer.status.toLowerCase()" [severity]="getSeverity(customer.status)" />
+                            {{ customer.date | date: 'MM/dd/yyyy' }}
                         </td>
                     }
+
+                    <td>
+                        <p-tag [value]="customer.status.toLowerCase()" [severity]="getSeverity(customer.status)" />
+                    </td>
                     @if (isCreateConvivenza()) {
                         <td>
                             <span class="flex justify-center items-center">
@@ -80,7 +86,7 @@ import { Router } from '@angular/router';
                             </span>
                         </td>
                     }
-                    <td>
+                    <td class="flex justify-end gap-1">
                         <p-button icon="pi pi-pencil" [text]="true" severity="info" />
                         <p-button icon="pi pi-trash" [text]="true" severity="danger" />
                     </td>
@@ -100,6 +106,8 @@ import { Router } from '@angular/router';
     </div>`
 })
 export class ProfileList {
+    title = input<string>('Lista Fratelli di comunitá');
+    isCreateConvivenza = input<boolean>(false);
     customers1: Customer[] = [];
     representatives: Representative[] = [];
 
@@ -109,7 +117,8 @@ export class ProfileList {
 
     loading: boolean = true;
     rowGroupMetadata: any;
-    isCreateConvivenza = input<boolean>(false);
+    addGuest = output();
+
     @ViewChild('filter') filter!: ElementRef;
     constructor(
         private customerService: CustomerService,
@@ -157,21 +166,27 @@ export class ProfileList {
 
     getSeverity(status: string) {
         switch (status) {
-            case 'qualified':
+            case 'catechista':
                 return 'success';
 
-            case 'negotiation':
+            case 'ostiario':
                 return 'warn';
 
-            case 'unqualified':
-                return 'danger';
-
-            default:
+            case 'nessuno':
                 return 'info';
+            case 'prete':
+                return 'danger';
+            default:
+                return 'secondary';
         }
     }
 
     navigateToCreateUser() {
         this.router.navigate(['profile/create']);
+    }
+    onAddGuest(e: Event) {
+        e.preventDefault();
+        e.stopPropagation(); // evita propagazione al form / mask
+        this.addGuest.emit();
     }
 }

@@ -98,51 +98,6 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
                             </div>
                         </div>
                     </li>
-                    <!-- <li>
-                        <a pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
-                            <i class="pi pi-envelope"></i>
-                        </a>
-                        <div class="hidden">
-                            <ul class="list-none p-0 m-0 flex flex-col text-color">
-                                <li>
-                                    <a class="cursor-pointer flex items-center px-4 py-2 gap-4 hover:text-primary">
-                                        <img src="/layout/images/avatar/avatar5.png" class="w-12 h-12" />
-                                        <span>Give me a call</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="cursor-pointer flex items-center px-4 py-2 gap-4 hover:text-primary">
-                                        <img src="/layout/images/avatar/avatar1.png" class="w-12 h-12" />
-                                        <span>Sales reports attached</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="cursor-pointer flex items-center px-4 py-2 gap-4 hover:text-primary">
-                                        <img src="/layout/images/avatar/avatar2.png" class="w-12 h-12" />
-                                        <span>About your invoice</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="cursor-pointer flex items-center px-4 py-2 gap-4 hover:text-primary">
-                                        <img src="/layout/images/avatar/avatar3.png" class="w-12 h-12" />
-                                        <span>Meeting today at 10pm</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="cursor-pointer flex items-center px-4 py-2 gap-4 hover:text-primary">
-                                        <img src="/layout/images/avatar/avatar4.png" class="w-12 h-12" />
-                                        <span>Out of office</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <button class="app-config-button" (click)="onConfigSidebarToggle()">
-                            <i class="pi pi-palette"></i>
-                        </button>
-                    </li>
-                    -->
                 </ul>
             </div>
         </div>
@@ -177,7 +132,6 @@ export class AppTopbar {
 
     darkTheme = computed(() => this.layoutService.layoutConfig().darkTheme);
     selectedTopbarTheme = computed(() => {
-        console.log(this.layoutService.layoutConfig().topbarTheme);
         return this.layoutService.layoutConfig().topbarTheme;
     });
 

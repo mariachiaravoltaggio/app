@@ -36,12 +36,12 @@ export class AppMenu {
             icon: 'pi pi-fw pi-briefcase',
             items: [
                 {
-                    label: 'Crea Convivenza',
+                    label: 'Convivenze',
                     icon: 'pi pi-fw pi-home',
-                    routerLink: ['/gestionale-cn/crea-convivenza']
+                    routerLink: ['/gestionale-cn/kanban']
                 },
                 {
-                    label: 'Crea Viaggio',
+                    label: 'Viaggi',
                     icon: 'pi pi-fw pi-money-bill',
                     routerLink: ['/gestionale-cn/crea-viaggio']
                 }

@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using GestionaleCN.Data;
+using GestionaleCN.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text.Json.Serialization;
-using GestionaleCN.Data;
 
 namespace GestionaleCN;
 public static class DependecyInjection
@@ -63,7 +65,7 @@ public static class DependecyInjection
 
         if (!string.IsNullOrWhiteSpace(sqlConnectionString))
         {
-            services.AddDbContext<NcDbContext>(options => options.UseSqlServer(sqlConnectionString)
+            services.AddDbContext<CnDbContext>(options => options.UseSqlServer(sqlConnectionString)
                 .EnableSensitiveDataLogging() // per vedere i parametri
                 .LogTo(Console.WriteLine, LogLevel.Information) // logging su console
             );
@@ -73,6 +75,22 @@ public static class DependecyInjection
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
+
+        services.AddMemoryCache();
+
+        services.AddHttpClient("nominatim", client =>
+        {
+            client.BaseAddress = new Uri("https://nominatim.openstreetmap.org/");
+            // User-Agent richiesto dalle policy
+            client.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("GestionaleCN", "1.0")); // cambia nome/versione
+            client.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("(+https://tuo-dominio.example)")); // o tua email in commento
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+        });
+
+        services.AddScoped<GeocodingService>();
 
         return services;
     }

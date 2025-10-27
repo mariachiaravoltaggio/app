@@ -20,6 +20,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.MapGet("/api/geocode", async (string q, string? country, GeocodingService svc)
+    => Results.Ok(await svc.ForwardAsync(q, country ?? "it")));
+
+app.MapGet("/api/reverse", async (double lat, double lon, GeocodingService svc)
+    => Results.Ok(await svc.ReverseAsync(lat, lon)));
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

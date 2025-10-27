@@ -18,22 +18,22 @@ import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
-    imports: [ChartModule,RouterLink, TableModule, MenuModule, ButtonModule, InputTextModule, FormsModule, CommonModule, IconFieldModule, InputIconModule, TagModule, RippleModule],
+    imports: [ChartModule, RouterLink, TableModule, MenuModule, ButtonModule, InputTextModule, FormsModule, CommonModule, IconFieldModule, InputIconModule, TagModule, RippleModule],
     template: `
         <div class="grid grid-cols-12 gap-8">
             <div class="col-span-12 md:col-span-6 lg:col-span-3">
                 <a
-                    routerLink="/gestionale-cn/crea-convivenza"
+                    routerLink="/gestionale-cn/kanban"
                     class="block h-48 rounded-border bg-cyan-400 bg-center bg-cover bg-no-repeat text-white
            transition-transform duration-300 ease-out will-change-transform
            hover:scale-[1.02] hover:shadow-xl active:scale-[0.99] cursor-pointer
            focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2
            dark:focus-visible:ring-offset-gray-900 group"
                     style="background-image: url('/demo/images/dashboard/effect-1.svg')"
-                    aria-label="Crea Convivenza"
+                    aria-label="Convivenze"
                 >
                     <div class="h-full w-full flex flex-col items-center justify-center text-center">
-                        <span class="text-2xl font-bold tracking-tight">Crea Convivenza</span>
+                        <span class="text-2xl font-bold tracking-tight">Convivenze</span>
                         <span class="mt-1 text-sm opacity-80 transition-opacity group-hover:opacity-100"> clicca per iniziare </span>
                     </div>
                 </a>
@@ -50,10 +50,10 @@ import { RouterLink } from '@angular/router';
                     aria-label="Crea Convivenza"
                 >
                     <div class="h-full w-full flex flex-col items-center justify-center text-center">
-                        <span class="text-2xl font-bold tracking-tight">Post-Cresima</span>
+                        <span class="text-2xl font-bold tracking-tight">Post Cresima - Gmg - Campi Estivi</span>
                         <span class="mt-1 text-sm opacity-80 transition-opacity group-hover:opacity-100"> clicca per iniziare </span>
-                    </div>
-                </a>
+                    </div> </a
+                >
             </div>
             <!--       <div class="col-span-12 md:col-span-6 lg:col-span-3">
                 <div class="p-4 text-white h-48 rounded-border m-0 bg-center bg-cover bg-no-repeat bg-purple-400" style="background-image: url('/demo/images/dashboard/effect-3.svg')">

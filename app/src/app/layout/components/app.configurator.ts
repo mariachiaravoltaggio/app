@@ -261,7 +261,6 @@ export class AppConfigurator {
     selectedScene = signal<string>('');
 
     selectedTopbarTheme = computed(() => {
-        console.log(this.layoutService.layoutConfig().topbarTheme)
         return this.layoutService.layoutConfig().topbarTheme
     });
 

@@ -46,13 +46,13 @@ export class LayoutService {
     _config: layoutConfig = {
         ripple: false,
         preset: 'Lara',
-        primary: 'yellow',
+        primary: 'violet',
         inputStyle: 'outlined',
         surface: null,
         darkTheme: false,
         menuMode: 'static',
         menuTheme: 'light',
-        topbarTheme: 'yellow',
+        topbarTheme: 'purple',
         menuProfilePosition: 'start'
     };
 

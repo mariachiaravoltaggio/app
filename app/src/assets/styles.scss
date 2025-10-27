@@ -4,3 +4,7 @@
 @use 'primeicons/primeicons.css';
 @use './demo/demo.scss';
 
+.leaflet-map {
+      height: 300px;
+      width: 100%;
+    }

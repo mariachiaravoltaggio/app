@@ -4,7 +4,11 @@ import { CreaViaggio } from "./gestionaleCN/crea.viaggio";
 
 
  export default [
-     { path: 'crea-convivenza', component: CreaConvivenza, data: { breadcrumb: 'Gestionale Convivenza' } },
+         {
+        path: 'kanban',
+        loadComponent: () => import('./gestionaleCN/kanban').then((c) => c.Kanban),
+        data: { breadcrumb: 'Kanban' }
+    },
       { path: 'crea-viaggio', component: CreaViaggio, data: { breadcrumb: 'Viaggio' } }
      //     { path: 'empty', component: Empty },
      //     { path: 'invoice', component: Invoice, data: { breadcrumb: 'Invoice' } },
